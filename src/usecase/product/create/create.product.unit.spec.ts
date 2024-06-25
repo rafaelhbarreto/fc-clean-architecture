@@ -28,6 +28,24 @@ describe("product usecase unit testes", () => {
       price: productInput.price
     })
   })
+
+  it("should throw error when product name is missing", async () => {
+    const createProductUseCase = new CreateProductUseCase(MockProductRepository())
+
+    expect(() => {
+      return createProductUseCase.execute({...productInput, name: ""})
+    }).rejects.toThrow("Name is required")
+  })
+
+  it("should throw error when price is missing", async () => {
+    const createProductUseCase = new CreateProductUseCase(MockProductRepository())
+
+    productInput.price = -1
+
+    expect(() => {
+      return createProductUseCase.execute({...productInput, price: -1})
+    }).rejects.toThrow("Price must be greater than zero")
+  })
 })
 
 
